@@ -8,13 +8,13 @@ gem "rake"
 
 group :development do
   gem "debug"
-  gem "sinatra", "~> 2.2"
+  gem "retest"
 end
 
 group :test do
-  gem "retest"
   gem "rack-test", "~> 1.1"
   gem "rspec", "~> 3.11"
-  gem 'timecop', '~> 0.9'
+  gem "sinatra", "~> 2.2"
+  gem "timecop", "~> 0.9"
   gem "webmock", "~> 3.14"
 end
