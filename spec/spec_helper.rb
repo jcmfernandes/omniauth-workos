@@ -5,12 +5,16 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'rack/test'
 require 'webmock/rspec'
 require 'omniauth'
-require 'omniauth-workos'
 require 'sinatra'
 require "multi_json"
 require "logger"
-require "debug"
 require "timecop"
+
+begin
+  require "debug" unless ENV["CI"]
+rescue LoadError
+  # ignore
+end
 
 RSpec.configure do |config|
   config.include WebMock::API

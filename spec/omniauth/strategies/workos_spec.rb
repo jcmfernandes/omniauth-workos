@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "omniauth"
+require "omniauth-workos"
+
 OmniAuth.config.allowed_request_methods = [:get, :post]
 
 RSpec.describe OmniAuth::Strategies::WorkOS do
