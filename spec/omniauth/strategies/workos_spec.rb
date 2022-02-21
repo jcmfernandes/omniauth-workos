@@ -149,7 +149,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
 
       def trigger_callback
         get '/auth/workos/callback', { 'state' => "123" },
-            'rack.session' => { 'omniauth.state' => "123", **rack_session }
+            'rack.session' => { 'omniauth.state' => "123" }.merge!(rack_session)
       end
 
       subject(:payload) do
