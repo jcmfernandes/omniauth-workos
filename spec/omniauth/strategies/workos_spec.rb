@@ -227,7 +227,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
           it "fails" do
             expect(last_response.status).to eq(302)
             redirect_url = last_response.headers['Location']
-            expect(redirect_url).to fail_auth_with('connection_or_organization_mismatch')
+            expect(redirect_url).to fail_auth_with('invalid_session')
           end
         end
 
@@ -241,7 +241,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
           it "fails" do
             expect(last_response.status).to eq(302)
             redirect_url = last_response.headers['Location']
-            expect(redirect_url).to fail_auth_with('connection_or_organization_mismatch')
+            expect(redirect_url).to fail_auth_with('connection_mismatch')
           end
         end
 
@@ -255,7 +255,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
           it "fails" do
             expect(last_response.status).to eq(302)
             redirect_url = last_response.headers['Location']
-            expect(redirect_url).to fail_auth_with('connection_or_organization_mismatch')
+            expect(redirect_url).to fail_auth_with('organization_mismatch')
           end
         end
       end

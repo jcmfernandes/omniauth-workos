@@ -4,7 +4,14 @@ require "omniauth-oauth2"
 
 module OmniAuth::Strategies
   class WorkOS < OmniAuth::Strategies::OAuth2
-    class Error < StandardError; end
+    class Error < StandardError
+      attr_reader :code
+
+      def initialize(code:, message:)
+        @code = code
+        super(message)
+      end
+    end
 
     AUTHORIZE_PARAMS_SESSION_KEY = "omniauth_workos_authorize_params"
     private_constant :AUTHORIZE_PARAMS_SESSION_KEY
@@ -49,15 +56,18 @@ module OmniAuth::Strategies
         # Confirm that the user comes from the connection/organization requested
         # during the authorize phase.
         unless authorize_params.key?("connection") || authorize_params.key?("organization")
-          raise Error.new("invalid session; no connection nor organization")
+          raise Error.new(code: :invalid_session,
+                          message: "invalid session; no connection nor organization")
         end
 
         if authorize_params.key?("connection") && authorize_params["connection"] != raw_info["connection_id"]
-          raise Error.new("the user's connection_id `#{raw_info["connection_id"]}` doesn't match what was requested `#{authorize_params["connection"]}`")
+          raise Error.new(code: :connection_mismatch,
+                          message: "the user's connection_id `#{raw_info["connection_id"]}` doesn't match what was requested `#{authorize_params["connection"]}`")
         end
 
         if authorize_params.key?("organization") && authorize_params["organization"] != raw_info["organization_id"]
-          raise Error.new("the user's organization_id `#{raw_info["organization_id"]}` doesn't match what was requested `#{authorize_params["organization"]}`")
+          raise Error.new(code: :organization_mismatch,
+                          message: "the user's organization_id `#{raw_info["organization_id"]}` doesn't match what was requested `#{authorize_params["organization"]}`")
         end
       end
     end
@@ -91,7 +101,7 @@ module OmniAuth::Strategies
     def callback_phase
       super
     rescue Error => e
-      fail!(:connection_or_organization_mismatch, e)
+      fail!(e.code, e)
     end
 
     private
