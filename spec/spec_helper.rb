@@ -37,10 +37,6 @@ RSpec.configure do |config|
 
   config.disable_monkey_patching!
 
-  # This setting enables warnings. It's recommended, but in some cases may
-  # be too noisy due to issues in dependencies.
-  # config.warnings = true
-
   if config.files_to_run.one?
     config.default_formatter = "doc"
   end
@@ -51,12 +47,12 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   def app
-    @app || make_application
+    @app
   end
 
   def make_application(options = {})
-    client_id = options.key?(:client_id) ? options.delete(:client_id) : 'CLIENT_ID'
-    client_secret = options.key?(:client_secret) ? options.delete(:client_secret) : 'CLIENT_SECRET'
+    client_id = options.delete(:client_id)
+    client_secret = options.delete(:client_secret)
 
     Sinatra.new do
       configure do

@@ -90,7 +90,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
 
       context "error handling" do
         context "when client_id is missing" do
-          let(:options) { { client_id: nil } }
+          let(:options) { super().merge(client_id: nil) }
 
           it 'fails' do
             get 'auth/workos'
@@ -102,7 +102,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
         end
 
         context "when client_secret is missing" do
-          let(:options) { { client_secret: nil } }
+          let(:options) { super().merge(client_secret: nil) }
 
           it 'fails when missing client_secret' do
             get 'auth/workos'
