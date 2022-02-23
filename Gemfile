@@ -18,3 +18,7 @@ group :test do
   gem "timecop", "~> 0.9"
   gem "webmock", "~> 3.14"
 end
+
+group :test, :development do
+  gem "standard", "~> 1.7"
+end
