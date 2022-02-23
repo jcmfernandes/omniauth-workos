@@ -18,9 +18,9 @@ module OmniAuth::Strategies
 
     option :name, "workos"
     option :client_options,
-           site: "https://api.workos.com",
-           authorize_url: "/sso/authorize",
-           token_url: "/sso/token"
+      site: "https://api.workos.com",
+      authorize_url: "/sso/authorize",
+      token_url: "/sso/token"
     option :authorize_options, %w[organization connection provider login_hint]
     # info_fields:
     # Either an **array** with the names of the fields as **strings**, or the
@@ -57,17 +57,17 @@ module OmniAuth::Strategies
         # during the authorize phase.
         unless authorize_params.key?("connection") || authorize_params.key?("organization")
           raise Error.new(code: :invalid_session,
-                          message: "invalid session; no connection nor organization")
+            message: "invalid session; no connection nor organization")
         end
 
         if authorize_params.key?("connection") && authorize_params["connection"] != raw_info["connection_id"]
           raise Error.new(code: :connection_mismatch,
-                          message: "the user's connection_id `#{raw_info["connection_id"]}` doesn't match what was requested `#{authorize_params["connection"]}`")
+            message: "the user's connection_id `#{raw_info["connection_id"]}` doesn't match what was requested `#{authorize_params["connection"]}`")
         end
 
         if authorize_params.key?("organization") && authorize_params["organization"] != raw_info["organization_id"]
           raise Error.new(code: :organization_mismatch,
-                          message: "the user's organization_id `#{raw_info["organization_id"]}` doesn't match what was requested `#{authorize_params["organization"]}`")
+            message: "the user's organization_id `#{raw_info["organization_id"]}` doesn't match what was requested `#{authorize_params["organization"]}`")
         end
       end
     end

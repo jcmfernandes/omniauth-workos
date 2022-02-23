@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
-require 'rack/test'
-require 'webmock/rspec'
-require 'omniauth'
-require 'sinatra'
+require "rack/test"
+require "webmock/rspec"
+require "omniauth"
+require "sinatra"
 require "multi_json"
 require "logger"
 require "timecop"
@@ -46,7 +46,7 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  def app
+  def app # rubocop:disable Style/TrivialAccessors
     @app
   end
 
@@ -58,18 +58,18 @@ RSpec.configure do |config|
       configure do
         enable :sessions
         set :show_exceptions, false
-        set :session_secret, 'TEST'
+        set :session_secret, "TEST"
       end
 
       use OmniAuth::Builder do
         provider :workos, client_id, client_secret, options
       end
 
-      get '/auth/workos/callback' do
-        MultiJson.encode(env['omniauth.auth'])
+      get "/auth/workos/callback" do
+        MultiJson.encode(env["omniauth.auth"])
       end
     end
   end
 end
 
-OmniAuth.config.logger = Logger.new('/dev/null')
+OmniAuth.config.logger = Logger.new("/dev/null")
