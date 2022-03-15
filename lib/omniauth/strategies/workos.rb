@@ -22,9 +22,6 @@ module OmniAuth::Strategies
       authorize_url: "/sso/authorize",
       token_url: "/sso/token"
     option :authorize_options, %w[organization connection provider login_hint]
-    # info_fields:
-    # Either an **array** with the names of the fields as **strings**, or the
-    # the **string** "all" to return all available fields.
     option :info_fields, "all"
 
     uid do
@@ -37,7 +34,6 @@ module OmniAuth::Strategies
       else
         {}.tap do |result|
           options[:info_fields].each do |field|
-            field = field.to_s
             result[field] = raw_info[field]
           end
         end
@@ -76,9 +72,7 @@ module OmniAuth::Strategies
       super.tap do |params|
         options[:authorize_options].each do |key|
           value = request.params[key]
-          next if blank?(value)
-
-          params[key] = value
+          params[key] = value unless blank?(value)
         end
 
         # Store the authorize params in the session because we will need them
