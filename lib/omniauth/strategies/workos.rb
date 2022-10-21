@@ -13,9 +13,6 @@ module OmniAuth::Strategies
       end
     end
 
-    AUTHORIZE_PARAMS_SESSION_KEY = "omniauth_workos_authorize_params"
-    private_constant :AUTHORIZE_PARAMS_SESSION_KEY
-
     option :name, "workos"
     option :client_options,
       site: "https://api.workos.com",
@@ -47,7 +44,7 @@ module OmniAuth::Strategies
         "expires" => true,
         "expires_at" => Time.now.utc.to_i + (10 * 60)
       }.tap do
-        authorize_params = session.delete(AUTHORIZE_PARAMS_SESSION_KEY) || {}
+        authorize_params = env.fetch("omniauth.params")
 
         # Confirm that the user comes from the connection/organization requested
         # during the authorize phase.
@@ -74,11 +71,6 @@ module OmniAuth::Strategies
           value = request.params[key]
           params[key] = value unless blank?(value)
         end
-
-        # Store the authorize params in the session because we will need them
-        # during the callback phase to verify that the user comes from the
-        # requested connection/organization.
-        session[AUTHORIZE_PARAMS_SESSION_KEY] = params
       end
     end
 

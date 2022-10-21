@@ -135,7 +135,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
       end
       let(:rack_session) do
         {
-          "omniauth_workos_authorize_params" => {"connection" => "conn_01"}
+          "omniauth.params" => {"connection" => "conn_01"}
         }
       end
 
@@ -234,7 +234,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
         context "when the connection ID is in the session but it doesn't match what we got from WorkOS" do
           let(:rack_session) do
             {
-              "omniauth_workos_authorize_params" => {"connection" => "invalid"}
+              "omniauth.params" => {"connection" => "invalid"}
             }
           end
 
@@ -248,7 +248,7 @@ RSpec.describe OmniAuth::Strategies::WorkOS do
         context "when the organization ID is in the session but it doesn't match what we got from WorkOS" do
           let(:rack_session) do
             {
-              "omniauth_workos_authorize_params" => {"organization" => "invalid"}
+              "omniauth.params" => {"organization" => "invalid"}
             }
           end
 
