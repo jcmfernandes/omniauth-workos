@@ -29,10 +29,8 @@ module OmniAuth::Strategies
       if options[:info_fields] == "all"
         raw_info.clone.tap { |hash| hash.delete("id") }
       else
-        {}.tap do |result|
-          options[:info_fields].each do |field|
-            result[field] = raw_info[field]
-          end
+        options[:info_fields].each_with_object({}) do |field, result|
+          result[field] = raw_info[field]
         end
       end
     end
